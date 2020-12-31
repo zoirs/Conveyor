@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd643e27309c43c408efed6182b19a54, type: 3}
+  m_Name: GameSettingsInstaller
+  m_EditorClassIdentifier: 
+  Prefabs:
+    LinePrefab: {fileID: 5070620176655214892, guid: 0c7f7ac0091b8884eb1baa262157bf16,
+      type: 3}
+    TrainPrefab: {fileID: 2283344040578458472, guid: 6dbcfca8b38ef7742bd64fe5b06a5f07,
+      type: 3}
+    StationPrefab: {fileID: 2128125618180923490, guid: 6cbf610c8ed7b824da76acaab83c2e2d,
+      type: 3}
+    ManufacturePrefab: {fileID: 1629501496476369433, guid: 63ace1196da199e4d85a425267c2f2a5,
+      type: 3}
+    PeoplePrefab: {fileID: 8606737083894641808, guid: 26a482f460f4b014bbd6f1b3f6a949f2,
+      type: 3}
+  LineMaterials:
+    NotUsed: {fileID: 2100000, guid: 737540abba71b2348a2eed738029afe3, type: 2}
+    Red: {fileID: 2100000, guid: 52ab251a4a8f84a4e9d43181ff6997d5, type: 2}
+    Blue: {fileID: 2100000, guid: 5f2a150e2b5a063469cf489b8b1b7e15, type: 2}
+  PeopleMaterials:
+    Simple: {fileID: 2100000, guid: 6e2ab4468035edc4c849ac6d584ff4fa, type: 2}
+    Wait: {fileID: 2100000, guid: eb0eb43840c8c8241b799f333d2b3dc3, type: 2}
+    WaitAgry: {fileID: 2100000, guid: e5b2231ada64eda47a2ea23387233663, type: 2}
+    _area0: {fileID: 2100000, guid: 0733b882617dd954ebe5fa7c449925f9, type: 2}
+    _area1: {fileID: 2100000, guid: a5eaa07d81602424b8bad0b5bd2c8449, type: 2}
+    _area2: {fileID: 2100000, guid: 572d3c31764ef0b4a93b50d4aa0f2b0e, type: 2}
+    _area3: {fileID: 2100000, guid: 02a9328b40c1d88419b61f762abaa943, type: 2}
+  People:
+    Spawner:
+      startingSpawns: 3
+  Product:
+    YellowMaterial: {fileID: 2100000, guid: 6a1b0f7fccd74484cb6d78d9bf526f47, type: 2}
+    BrownMaterial: {fileID: 2100000, guid: 479b0580d78b4f64fb234272795ac32a, type: 2}
+    Yellow: {fileID: 2800000, guid: 07837eca41151b54ca3897d439b2afa8, type: 3}
+    Brown: {fileID: 2800000, guid: 6e0033212011cb246ad35bcd6328f4b3, type: 3}
+  TrainSetting:
+    speed: 1
+  PriceSettings:
+    station: 10
+    lineElement: 20
+    ticket: 5

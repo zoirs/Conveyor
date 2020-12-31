@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd643e27309c43c408efed6182b19a54, type: 3}
+  m_Name: GameSettingInstallers
+  m_EditorClassIdentifier: 
+  GameInstaller:
+    LineElementPrefab: {fileID: 5746676505757548330, guid: dcd8cdfeecf397b4b9bc487e4e161300,
+      type: 3}
+    TrainPrefab: {fileID: 2283344040578458472, guid: 6dbcfca8b38ef7742bd64fe5b06a5f07,
+      type: 3}
