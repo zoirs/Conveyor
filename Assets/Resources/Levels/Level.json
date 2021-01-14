@@ -1,0 +1,25 @@
+{"companies":[
+  {"index":0,"position":{"x":5.5,"y":9.5},"manufactureType":"city","productType":0},
+  {"index":0,"position":{"x":8.5,"y":11.5},"manufactureType":"city","productType":0},
+  {"index":0,"position":{"x":8.5,"y":8.5},"manufactureType":"city","productType":0},
+  {"index":0,"position":{"x":11.5,"y":13.5},"manufactureType":"city","productType":0},
+  {"index":0,"position":{"x":11.5,"y":7.5},"manufactureType":"manufacture","productType":1},
+  {"index":0,"position":{"x":13.5,"y":11.5},"manufactureType":"city","productType":0},
+  {"index":0,"position":{"x":13.5,"y":9.5},"manufactureType":"city","productType":0},
+  {"index":0,"position":{"x":16.5,"y":11.5},"manufactureType":"manufacture","productType":2},
+  {"index":0,"position":{"x":16.5,"y":9.5},"manufactureType":"city","productType":0},
+  {"index":0,"position":{"x":16.5,"y":7.5},"manufactureType":"city","productType":0}
+],"lines":[
+  {"indexFirst":0,"indexSecond":1},
+  {"indexFirst":0,"indexSecond":2},
+  {"indexFirst":1,"indexSecond":2},
+  {"indexFirst":1,"indexSecond":3},
+  {"indexFirst":2,"indexSecond":4},
+  {"indexFirst":3,"indexSecond":5},
+  {"indexFirst":4,"indexSecond":6},
+  {"indexFirst":5,"indexSecond":7},
+  {"indexFirst":6,"indexSecond":8},
+  {"indexFirst":7,"indexSecond":8},
+  {"indexFirst":8,"indexSecond":9},
+  {"indexFirst":5,"indexSecond":6}]
+}
