@@ -9,47 +9,47 @@ namespace Line {
         private GameSettingsInstaller.LineMaterialsSettings _lineMaterialsSettings;
         private DrowLineComponent.Factory _factoryLine;
         private ManufacturerController.Factory _factoryManufacture;
-        private StationController.Factory _factoryStations;
+        private CityManager _cityManager;
 
         readonly Dictionary<LineType, LineController> _lines = new Dictionary<LineType, LineController>();
+        private List<Company> _manufacturers;
 
         public LineManager(GameSettingsInstaller.LineMaterialsSettings lineMaterialsSettings,
             DrowLineComponent.Factory factoryLine,
             ManufacturerController.Factory factoryManufacture,
-            StationController.Factory factoryStations) {
+            CityManager factoryStations) {
             _factoryManufacture = factoryManufacture;
             _lineMaterialsSettings = lineMaterialsSettings;
             _factoryLine = factoryLine;
-            _factoryStations = factoryStations;
+            _cityManager = factoryStations;
         }
 
-        public void Create() {
+        public void Start() {
             List<Tuple<Vector3, bool>> positionsManufacture = new List<Tuple<Vector3, bool>>{
-                new Tuple<Vector3, bool>(new Vector3(3.5f, 9.5f),true),        //0
-                new Tuple<Vector3, bool>(new Vector3(6.5f, 11.5f),true),       //1
-                new Tuple<Vector3, bool>(new Vector3(6.5f, 8.5f),true),        //2
-                new Tuple<Vector3, bool>(new Vector3(9.5f, 13.5f),true),       //3
-                new Tuple<Vector3, bool>(new Vector3(9.5f, 7.5f),false),//      //
-                new Tuple<Vector3, bool>(new Vector3(11.5f, 11.5f),true),      //4
-                new Tuple<Vector3, bool>(new Vector3(11.5f, 9.5f),true),       //5
-                new Tuple<Vector3, bool>(new Vector3(14.5f, 11.5f),false),//    //
-                new Tuple<Vector3, bool>(new Vector3(14.5f, 9.5f),true),       //6
-                new Tuple<Vector3, bool>(new Vector3(14.5f, 7.5f),true),       //7
+                new Tuple<Vector3, bool>(new Vector3(2f+3.5f, 9.5f),false),        //0
+                new Tuple<Vector3, bool>(new Vector3(2f+6.5f, 11.5f),false),       //1
+                new Tuple<Vector3, bool>(new Vector3(2f+6.5f, 8.5f),false),        //2
+                new Tuple<Vector3, bool>(new Vector3(2f+9.5f, 13.5f),false),       //3
+                new Tuple<Vector3, bool>(new Vector3(2f+9.5f, 7.5f),true),//      //
+                new Tuple<Vector3, bool>(new Vector3(2f+11.5f, 11.5f),false),      //4
+                new Tuple<Vector3, bool>(new Vector3(2f+11.5f, 9.5f),false),       //5
+                new Tuple<Vector3, bool>(new Vector3(2f+14.5f, 11.5f),true),//    //
+                new Tuple<Vector3, bool>(new Vector3(2f+14.5f, 9.5f),false),       //6
+                new Tuple<Vector3, bool>(new Vector3(2f+14.5f, 7.5f),false),       //7
 
             };
-            List<Company> manufacturers = new List<Company>();
+            _manufacturers = new List<Company>();
             foreach (Tuple<Vector3, bool> tuple in positionsManufacture) {
                 if (tuple.Item2) {
                     ManufacturerController manufacturer = _factoryManufacture.Create();
-                    manufacturer.transform.position = tuple.Item1;
-                    manufacturers.Add(manufacturer);                    
+                    manufacturer.Init(tuple.Item1.x < 14f ? ProductType.Brown : ProductType.Yellow, tuple.Item1);
+                    _manufacturers.Add(manufacturer);                    
                 }
                 else {
-                    StationController stationController = _factoryStations.Create();
-                    stationController.transform.position = tuple.Item1;
-                    int stationCount = manufacturers.Count(q => q is StationController);
-                    stationController.Init((stationCount == 0) ? ProductType.Brown : ProductType.Yellow);
-                    manufacturers.Add(stationController);  
+                    CityController cityController = _cityManager.Create(tuple.Item1);
+//                    int stationCount = manufacturers.Count(q => q is CityController);
+//                    cityController.Init((stationCount == 0) ? ProductType.Brown : ProductType.Yellow);
+                    _manufacturers.Add(cityController);  
                 }
             }
 
@@ -63,18 +63,18 @@ namespace Line {
 //                new Vector3(14, 13)
 //            }, new List<ManufacturerController>() {manufacturers[0], manufacturers[1]});
 
-            _factoryLine.Create(new List<Vector3>(), new List<Company>() {manufacturers[0], manufacturers[1]});
-            _factoryLine.Create(new List<Vector3>(), new List<Company>() {manufacturers[0], manufacturers[2]});
-            _factoryLine.Create(new List<Vector3>(), new List<Company>() {manufacturers[1], manufacturers[2]});
-            _factoryLine.Create(new List<Vector3>(), new List<Company>() {manufacturers[1], manufacturers[3]});
-            _factoryLine.Create(new List<Vector3>(), new List<Company>() {manufacturers[2], manufacturers[4]});
-            _factoryLine.Create(new List<Vector3>(), new List<Company>() {manufacturers[3], manufacturers[5]});
-            _factoryLine.Create(new List<Vector3>(), new List<Company>() {manufacturers[4], manufacturers[6]});
-            _factoryLine.Create(new List<Vector3>(), new List<Company>() {manufacturers[5], manufacturers[7]});
-            _factoryLine.Create(new List<Vector3>(), new List<Company>() {manufacturers[6], manufacturers[8]});
-            _factoryLine.Create(new List<Vector3>(), new List<Company>() {manufacturers[7], manufacturers[8]});
-            _factoryLine.Create(new List<Vector3>(), new List<Company>() {manufacturers[8], manufacturers[9]});
-            _factoryLine.Create(new List<Vector3>(), new List<Company>() {manufacturers[5], manufacturers[6]});
+            _factoryLine.Create(new List<Vector3>(), new List<Company>() {_manufacturers[0], _manufacturers[1]});
+            _factoryLine.Create(new List<Vector3>(), new List<Company>() {_manufacturers[0], _manufacturers[2]});
+            _factoryLine.Create(new List<Vector3>(), new List<Company>() {_manufacturers[1], _manufacturers[2]});
+            _factoryLine.Create(new List<Vector3>(), new List<Company>() {_manufacturers[1], _manufacturers[3]});
+            _factoryLine.Create(new List<Vector3>(), new List<Company>() {_manufacturers[2], _manufacturers[4]});
+            _factoryLine.Create(new List<Vector3>(), new List<Company>() {_manufacturers[3], _manufacturers[5]});
+            _factoryLine.Create(new List<Vector3>(), new List<Company>() {_manufacturers[4], _manufacturers[6]});
+            _factoryLine.Create(new List<Vector3>(), new List<Company>() {_manufacturers[5], _manufacturers[7]});
+            _factoryLine.Create(new List<Vector3>(), new List<Company>() {_manufacturers[6], _manufacturers[8]});
+            _factoryLine.Create(new List<Vector3>(), new List<Company>() {_manufacturers[7], _manufacturers[8]});
+            _factoryLine.Create(new List<Vector3>(), new List<Company>() {_manufacturers[8], _manufacturers[9]});
+            _factoryLine.Create(new List<Vector3>(), new List<Company>() {_manufacturers[5], _manufacturers[6]});
 //            _lines.Add(LineType.NOT_USED, drowLineComponent.gameObject.GetComponent<LineController>());
         }
 
@@ -99,5 +99,7 @@ namespace Line {
                     throw new ArgumentOutOfRangeException(nameof(lineType), lineType, null);
             }
         }
+
+        public List<Company> Manufacturers => _manufacturers;
     }
 }

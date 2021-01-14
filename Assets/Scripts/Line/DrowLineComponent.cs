@@ -56,10 +56,10 @@ public class DrowLineComponent : MonoBehaviour {
     }
 
 
-    private void StartStation(StationController station) {
-        Vector3 stationPosition = station.gameObject.transform.position;
-        _lineController.AddStation(station);
-        station.AddLine(_lineController);
+    private void StartStation(CityController city) {
+        Vector3 stationPosition = city.gameObject.transform.position;
+        _lineController.AddStation(city);
+        city.AddLine(_lineController);
 
         if (fingerPosition.IsEmpty()) {
             fingerPosition.Add(stationPosition);
@@ -93,7 +93,6 @@ public class DrowLineComponent : MonoBehaviour {
 
     private void OnGUI() {
         if (Event.current.type == EventType.MouseDown) {
-            Debug.Log("==========================");
             if (ClickOnLine()) {
                 _guiHandler.ShowPanelFor(_lineController);                
             }
@@ -103,10 +102,10 @@ public class DrowLineComponent : MonoBehaviour {
         switch (_state) {
             case LineState.INITED:
                 if (Input.GetMouseButtonDown(0)) {
-                    StationController station = ClickOnStation();
-                    if (station != null) {
+                    CityController city = ClickOnStation();
+                    if (city != null) {
                         Debug.Log("Line create started");
-                        StartStation(station);
+                        StartStation(city);
                         _state = LineState.IN_PROGRESS;
                     }
                     else {
@@ -125,10 +124,10 @@ public class DrowLineComponent : MonoBehaviour {
                 }
 
                 if (Input.GetMouseButtonDown(0)) {
-                    StationController station = ClickOnStation();
-                    if (station != null) {
+                    CityController city = ClickOnStation();
+                    if (city != null) {
                         Debug.Log("Line create completed");
-                        DrowNexStation(station);
+                        DrowNexStation(city);
                         _state = LineState.COMPLETED;
                         fingerPosition.Add(_lineRenderer.GetPosition(_lineRenderer.positionCount - 2));
                         fingerPosition.Add(_lineRenderer.GetPosition(_lineRenderer.positionCount - 1));
@@ -169,21 +168,21 @@ public class DrowLineComponent : MonoBehaviour {
         return false;
     }
 
-    private void DrowNexStation(StationController station) {
-        _lineController.AddStation(station);
-        Vector3 stationPosition = station.gameObject.transform.position;
+    private void DrowNexStation(CityController city) {
+        _lineController.AddStation(city);
+        Vector3 stationPosition = city.gameObject.transform.position;
         Vector2 turnPoint = getPoint(fingerPosition[fingerPosition.Count - 1], stationPosition);
         _lineRenderer.SetPosition(_lineRenderer.positionCount - 2, turnPoint);
         _lineRenderer.SetPosition(_lineRenderer.positionCount - 1, stationPosition);
     }
 
-    private static StationController ClickOnStation() {
+    private static CityController ClickOnStation() {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit[] raycastHits = Physics.RaycastAll(ray);
         foreach (RaycastHit raycastHit in raycastHits) {
-            StationController stationController = raycastHit.transform.GetComponent<StationController>();
-            if (stationController != null) {
-                return stationController;
+            CityController cityController = raycastHit.transform.GetComponent<CityController>();
+            if (cityController != null) {
+                return cityController;
             }
         }
 

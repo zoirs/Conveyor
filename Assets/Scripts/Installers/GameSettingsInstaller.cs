@@ -8,18 +8,25 @@ public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInsta
 {
     public PrefabSettings Prefabs;
     public LineMaterialsSettings LineMaterials;
-    public PeopleMaterialsSettings PeopleMaterials;
-    public PeopleSettings People;
+    // public PeopleMaterialsSettings PeopleMaterials;
+    // public PeopleSettings People;
     public ProductSettings Product;
     public TrainController.Settings TrainSetting;
     public MoneyService.PriceSettings PriceSettings;
+    public TaskSetting TaskSettings;
+    public ManufactureSettings ManufactureSetting;
+
+    // [Serializable]
+    // public class PeopleSettings
+    // {
+        // public PeopleManager.Settings Spawner;
+    // }
 
     [Serializable]
-    public class PeopleSettings
-    {
-        public PeopleManager.Settings Spawner;
+    public class ManufactureSettings {
+        public int produceSpeedSeconds;
     }
-    
+
     [Serializable]
     public class PrefabSettings
     {
@@ -27,7 +34,7 @@ public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInsta
         public GameObject TrainPrefab;
         public GameObject StationPrefab;
         public GameObject ManufacturePrefab;
-        public GameObject PeoplePrefab;
+        // public GameObject PeoplePrefab;
     }
     
     [Serializable]
@@ -41,32 +48,52 @@ public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInsta
     [Serializable]
     public class ProductSettings
     {
+        public Material EmptyMaterial;
         public Material YellowMaterial;
         public Material BrownMaterial;
+        public Color YellowColor;
+        public Color BrownColor;
         public Texture Yellow;
         public Texture Brown;
     }
     
+    // [Serializable]
+    // public class PeopleMaterialsSettings
+    // {
+    //     public Material Simple;
+    //     public Material Wait;
+    //     public Material WaitAgry;
+    //     public Material _area0;
+    //     public Material _area1;
+    //     public Material _area2;
+    //     public Material _area3;
+    // }
+    
     [Serializable]
-    public class PeopleMaterialsSettings
-    {
-        public Material Simple;
-        public Material Wait;
-        public Material WaitAgry;
-        public Material _area0;
-        public Material _area1;
-        public Material _area2;
-        public Material _area3;
+    public class TaskSetting {
+        public int brownTaskCount;
+        public int brownResourceCountFrom;
+        public int brownResourceCountTo;
+        public int brownResourcePriceFrom;
+        public int brownResourcePriceTo;
+        
+        public int yellowTaskCount;
+        public int yellowResourceCountFrom;
+        public int yellowResourceCountTo;
+        public int yellowResourcePriceFrom;
+        public int yellowResourcePriceTo;
     }
     
     public override void InstallBindings()
     {
         Container.BindInstance(Prefabs);
         Container.BindInstance(LineMaterials);
-        Container.BindInstance(PeopleMaterials);
-        Container.BindInstance(People.Spawner);
+        // Container.BindInstance(PeopleMaterials);
+        // Container.BindInstance(People.Spawner);
         Container.BindInstance(TrainSetting);
         Container.BindInstance(PriceSettings);
         Container.BindInstance(Product);
+        Container.BindInstance(TaskSettings);
+        Container.BindInstance(ManufactureSetting);
     }
 }

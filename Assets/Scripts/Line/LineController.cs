@@ -8,7 +8,7 @@ using Zenject;
 
 namespace Line {
     public class LineController : MonoBehaviour{
-        private List<StationController> _stations = new List<StationController>();
+        private List<CityController> _stations = new List<CityController>();
         private List<TrainController> _trains = new List<TrainController>();
         private LineRenderer _lineRenderer;
         private Company _first;
@@ -26,8 +26,8 @@ namespace Line {
             LineType = LineType.NOT_USED;
         }
 
-        public void AddStation(StationController station) {
-            _stations.Add(station);
+        public void AddStation(CityController city) {
+            _stations.Add(city);
         }
         
         public void AddTrain(TrainController train) {
@@ -65,7 +65,7 @@ namespace Line {
             });
         }
 
-        public StationController GetStation(int index) {
+        public CityController GetStation(int index) {
             Vector3 stationPosition = GetPointPosition(index);
             Debug.Log("Index " + index);
             return _stations.First(controller => {

@@ -3,6 +3,7 @@ using DefaultNamespace;
 using Line;
 using Main;
 using Map;
+using Train;
 using UnityEngine;
 using Zenject;
 
@@ -13,9 +14,11 @@ public class GameInstaller : MonoInstaller {
     public override void InstallBindings() {
         Container.Bind<ScreenService>().AsSingle();
         Container.BindInterfacesAndSelfTo<GameController>().AsSingle();
-        Container.BindInterfacesAndSelfTo<PeopleManager>().AsSingle();
+        // Container.BindInterfacesAndSelfTo<PeopleManager>().AsSingle();
+        Container.BindInterfacesAndSelfTo<TaskManager>().AsSingle();
+        Container.BindInterfacesAndSelfTo<TrainManager>().AsSingle();
         Container.BindInterfacesAndSelfTo<MapService>().AsSingle();
-        Container.BindInterfacesAndSelfTo<StationManager>().AsSingle();
+        Container.BindInterfacesAndSelfTo<CityManager>().AsSingle();
         Container.BindInterfacesAndSelfTo<MoneyService>().AsSingle();
         Container.BindInterfacesAndSelfTo<LineManager>().AsSingle();
 
@@ -32,7 +35,7 @@ public class GameInstaller : MonoInstaller {
         Container.BindFactory<List<Vector3>, List<Company>, DrowLineComponent, DrowLineComponent.Factory>()
             .FromMethod(CreateLine);
 
-        Container.BindFactory<StationController, StationController.Factory>()
+        Container.BindFactory<CityController, CityController.Factory>()
             .FromComponentInNewPrefab(_prefabs.StationPrefab)
             .WithGameObjectName("Station")
             .UnderTransformGroup("Stations");
@@ -62,7 +65,8 @@ public class GameInstaller : MonoInstaller {
         SignalBusInstaller.Install(Container);
 
         // Signals can be useful for game-wide events that could have many interested parties
-        Container.DeclareSignal<EnterToStationSignal>();
+        Container.DeclareSignal<AddProductSignal>();
+        Container.DeclareSignal<TaskCompleteSignal>();
         Container.DeclareSignal<ChangeLevelSignal>();
     }
 }

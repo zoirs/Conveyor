@@ -15,15 +15,19 @@ public class TrainController : MonoBehaviour {
     private bool forward = true;
     private Vector3 _dir;
     private int index;
-    private TrainState _state;
+    private TrainState _state = TrainState.Depo;
     private LineController _currentLine;
-    private float speedKoef = 1;
+    private float speedKoef = 1; // для тормозов на станции
+    private int speedLevel = 1; 
 
     private List<ProductEntity> peoples = new List<ProductEntity>();
-
+    private static readonly Vector3 DEPO_POSITION = new Vector3(-100,-100);
 
     private void Update() {
         switch (_state) {
+            case TrainState.Depo:
+                transform.position = DEPO_POSITION;
+                break;
             case TrainState.WaitingSetLine:
                 Vector2 tmpPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 if (Vector2.Distance(tmpPosition, transform.position) > 0.5f) {
@@ -43,7 +47,7 @@ public class TrainController : MonoBehaviour {
                             _state = TrainState.Going;
                         }
                         else {
-                            Destroy(gameObject);
+                            GoToDepo();
                         }
                     }
                 }
@@ -58,7 +62,7 @@ public class TrainController : MonoBehaviour {
                     speedKoef = 1;
                 }
 
-                float speed = speedKoef * _settings.speed * Time.deltaTime;
+                float speed = speedKoef * speedLevel * _settings.speed * Time.deltaTime;
                 transform.position =
                     Vector3.MoveTowards(transform.position, _currentLine.GetPointPosition(index), speed);
 //                transform.Translate(_dir.normalized * speedKoef * _settings.speed * Time.deltaTime);
@@ -89,8 +93,8 @@ public class TrainController : MonoBehaviour {
                     CollectProduct((ManufacturerController) company);
                 }
 
-                if (company is StationController) {
-                    DropProduct((StationController) company);
+                if (company is CityController) {
+                    DropProduct((CityController) company);
                 }
 
 //                manufacturerController;
@@ -127,8 +131,17 @@ public class TrainController : MonoBehaviour {
         }
     }
 
+    public void GoToLine() {
+        _state = TrainState.WaitingSetLine;
+    }
+
+    public void GoToDepo() {
+        _state = TrainState.Depo;
+    }
+
     private void CollectProduct(ManufacturerController manufacture) {
-        ProductEntity canSellProduct = ExistConsumerOnLineFor(manufacture, _currentLine, manufacture.GetProducts());
+        LineController nextLine = manufacture.GetNextLine(_currentLine);
+        ProductEntity canSellProduct = ExistConsumerOnLineFor(manufacture, nextLine != null ? nextLine : _currentLine, manufacture.GetProducts());
         if (canSellProduct == null) {
             return;
         }
@@ -140,40 +153,38 @@ public class TrainController : MonoBehaviour {
         }
     }
 
-    private void DropProduct(StationController stationController) {
-        Debug.Log("drop on " + stationController.GetProductType());
+    private void DropProduct(CityController cityController) {
+//        Debug.Log("drop on " + cityController.GetProductType());
         for (int i = peoples.Count - 1; i >= 0; i--) {
             ProductEntity product = peoples[i];
             Debug.Log("product " + product.ProductType);
-            if (product.ProductType == stationController.GetProductType()) {
+            if (cityController.GetProductType() == product.ProductType) {
                 peoples.RemoveAt(i);
                 countText.text = peoples.Count.ToString();
-                stationController.AddProduct(product);
+                cityController.AddProduct(product);
             }
         }
     }
 
-    public ProductEntity ExistConsumerOnLineFor(Company manufacturer, LineController currentLine, List<ProductEntity> products) {
-        if (products.Count == 0) {
+    public ProductEntity ExistConsumerOnLineFor(Company manufacturer, LineController nextLine, List<ProductEntity> products) {
+        if (products.Count == 0 || nextLine == null) {
+            Debug.Log("products.Count " + products.Count + ", nextLine " + nextLine);
             return null;
         }
 
         Debug.Log("Find product " + products.Count + " " + products[0]._productType + " on " + manufacturer);
-        LineController lineController = manufacturer.GetNextLine(currentLine);
-        if (lineController == null) {
-            return null;
-        }
-
-        Company companySecond = lineController.GetAnotherCompany(manufacturer);
+        
+        Company companySecond = nextLine.GetAnotherCompany(manufacturer);
         Debug.Log("Find station "+ (companySecond));
 //        Debug.Log("Find station StationController"+ (companySecond is StationController));
 //        Debug.Log("Find station ManufacturerController"+ (companySecond is ManufacturerController));
 
-        if (companySecond is StationController) {
-            Debug.Log("Find station "+ ((StationController) companySecond).GetProductType());
+        if (companySecond is CityController) {
+//            Debug.Log("Find station "+ ((CityController) companySecond).GetProductType());
 
-            ProductEntity canSellProduct = products.Find(entity => entity._productType == ((StationController) companySecond).GetProductType());
+            ProductEntity canSellProduct = products.Find(entity => ((CityController) companySecond).GetProductType() == entity._productType);
             if (canSellProduct != null) {
+                Debug.Log("Found product ");
                 return canSellProduct;
             }
         }
@@ -184,14 +195,29 @@ public class TrainController : MonoBehaviour {
 //            return false;
 //        }
 
-        return ExistConsumerOnLineFor(companySecond, lineController, products);
+        return ExistConsumerOnLineFor(companySecond, companySecond.GetNextLine(nextLine), products);
     }
 
+    
 
     [Serializable]
     public class Settings {
         public float speed;
     }
+
+    public int Speed() {
+        return speedLevel;
+    }
+    
+    public void UpgradeSpeed() {
+        speedLevel++;
+    }
+
+    public string StateText() {
+        return _state.Text();
+    }
+
+    public TrainState State => _state;
 
     public class Factory : PlaceholderFactory<TrainController> { }
 }

@@ -21,31 +21,34 @@ MonoBehaviour:
       type: 3}
     ManufacturePrefab: {fileID: 1629501496476369433, guid: 63ace1196da199e4d85a425267c2f2a5,
       type: 3}
-    PeoplePrefab: {fileID: 8606737083894641808, guid: 26a482f460f4b014bbd6f1b3f6a949f2,
-      type: 3}
   LineMaterials:
     NotUsed: {fileID: 2100000, guid: 737540abba71b2348a2eed738029afe3, type: 2}
     Red: {fileID: 2100000, guid: 52ab251a4a8f84a4e9d43181ff6997d5, type: 2}
     Blue: {fileID: 2100000, guid: 5f2a150e2b5a063469cf489b8b1b7e15, type: 2}
-  PeopleMaterials:
-    Simple: {fileID: 2100000, guid: 6e2ab4468035edc4c849ac6d584ff4fa, type: 2}
-    Wait: {fileID: 2100000, guid: eb0eb43840c8c8241b799f333d2b3dc3, type: 2}
-    WaitAgry: {fileID: 2100000, guid: e5b2231ada64eda47a2ea23387233663, type: 2}
-    _area0: {fileID: 2100000, guid: 0733b882617dd954ebe5fa7c449925f9, type: 2}
-    _area1: {fileID: 2100000, guid: a5eaa07d81602424b8bad0b5bd2c8449, type: 2}
-    _area2: {fileID: 2100000, guid: 572d3c31764ef0b4a93b50d4aa0f2b0e, type: 2}
-    _area3: {fileID: 2100000, guid: 02a9328b40c1d88419b61f762abaa943, type: 2}
-  People:
-    Spawner:
-      startingSpawns: 3
   Product:
+    EmptyMaterial: {fileID: 2100000, guid: 81103853ec6f746488f04c7232fb41ab, type: 2}
     YellowMaterial: {fileID: 2100000, guid: 6a1b0f7fccd74484cb6d78d9bf526f47, type: 2}
     BrownMaterial: {fileID: 2100000, guid: 479b0580d78b4f64fb234272795ac32a, type: 2}
+    YellowColor: {r: 1, g: 0.79215693, b: 0.09411766, a: 1}
+    BrownColor: {r: 0.7254902, g: 0.4784314, b: 0.3372549, a: 1}
     Yellow: {fileID: 2800000, guid: 07837eca41151b54ca3897d439b2afa8, type: 3}
     Brown: {fileID: 2800000, guid: 6e0033212011cb246ad35bcd6328f4b3, type: 3}
   TrainSetting:
     speed: 1
   PriceSettings:
-    station: 10
-    lineElement: 20
-    ticket: 5
+    train: 100
+    trainWagon: 70
+    trainSpeed: 20
+  TaskSettings:
+    brownTaskCount: 1
+    brownResourceCountFrom: 4
+    brownResourceCountTo: 7
+    brownResourcePriceFrom: 10
+    brownResourcePriceTo: 15
+    yellowTaskCount: 1
+    yellowResourceCountFrom: 6
+    yellowResourceCountTo: 8
+    yellowResourcePriceFrom: 7
+    yellowResourcePriceTo: 10
+  ManufactureSetting:
+    produceSpeedSeconds: 5

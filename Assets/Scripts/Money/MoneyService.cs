@@ -7,25 +7,29 @@ public class MoneyService : IDisposable, IInitializable {
     [Inject] private SignalBus _signalBus;
 
     public void Dispose() {
-        _signalBus.Unsubscribe<EnterToStationSignal>(OnEnterToStation);
+        _signalBus.Unsubscribe<AddProductSignal>(OnEnterToStation);
     }
 
     public void Initialize() {
-        _signalBus.Subscribe<EnterToStationSignal>(OnEnterToStation);
+        _signalBus.Subscribe<AddProductSignal>(OnEnterToStation);
     }
 
     private void OnEnterToStation() {
-        balance = balance + 5;
+        // balance = balance + 5;
     }
     
     public void Minus(int money) {
         balance = balance - money;
     }
 
+    public void Plus(int money) {
+        balance = balance + money;
+    }
+
     [Serializable]
     public class PriceSettings {
-        public int station;
-        public int lineElement;
-        public int ticket;
+        public int train;
+        public int trainWagon;
+        public int trainSpeed;
     }
 }
